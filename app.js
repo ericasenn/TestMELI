@@ -94,9 +94,11 @@ function getItemDescriptionPromise(id) {
 }
 
 app.get('/api/items', function (req, res) {
-    getSearchPromise(res.query.q)
+    getSearchPromise(req.query.q)
     .then(function (response) {
         const responseJSON = buildSearchResults(response.data);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.send(responseJSON);
     })
     .catch(function (error) {
@@ -112,6 +114,8 @@ app.get('/api/items/:id', function (req, res) {
         var itemResponse = responses[0];
         var descriptionResponse = responses[1];
         var responseJSON = buildItem(itemResponse.data, descriptionResponse.data);
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         res.send(responseJSON);
     })
     .catch(function (error) {
